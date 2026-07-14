@@ -3,109 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Image Enhancer</title>
-
+    <meta name="description" content="AI-Powered Image Enhancement - Automatic brightness, contrast and color correction directly in your browser">
+    
+    <title>Vermeer - Image Enhancer</title>
+    
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="apple-touch-icon" href="favicon.svg">
     <link rel="stylesheet" href="style.css">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div class="blob blob1"></div>
+    <div class="blob blob2"></div>
 
-<nav>
-    <div class="logo">
-        ✨ Image Enhancer
-    </div>
-
-    <button class="nav-btn">
-        GitHub
-    </button>
-</nav>
-
-<main>
-
-    <section class="hero">
-
-        <div class="badge">
-            AI Powered
+    <nav>
+        <div class="logo">
+            <svg class="logo-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 2a10 10 0 0 1 10 10"/>
+            </svg>
+            Vermeer
         </div>
 
-        <h1>
-            Enhance your images
-        </h1>
+        <a href="https://github.com/KlaudsDem1se/image-enhencer" class="nav-btn" target="_blank" rel="noopener noreferrer">
+            GitHub
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display: inline-block; vertical-align: middle; margin-left: 6px;">
+                <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+            </svg>
+        </a>
+    </nav>
 
-        <p>
-            Automatic brightness, contrast and color correction
-        </p>
+    <main>
+        <section class="hero">
+            <h1>AI-Powered <span>Image Enhancement</span></h1>
+            <p>Automatic brightness, contrast and color correction directly in your browser</p>
+        </section>
 
-    </section>
+        <div class="upload-wrapper">
+            <section class="upload-card" id="dropZone">
+                <div id="uploadContent">
+                    <div class="upload-icon">
+                        <svg width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" stroke="url(#paint0_linear)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <defs>
+                                <linearGradient id="paint0_linear" x1="12" y1="6" x2="12" y2="20" gradientUnits="userSpaceOnUse">
+                                    <stop stop-color="#c4b5fd"/>
+                                    <stop offset="1" stop-color="#8b5cf6"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+                    <h2>Upload your image</h2>
+                    <p>Drag & Drop or click to select</p>
+                    
+                    <input type="file" id="fileInput" accept=".jpg,.jpeg,.png,.bmp,.heic,.webp" hidden>
+                    <button id="btn" class="upload-btn">Select Image</button>
+                    <div class="formats">JPG • PNG • BMP • HEIC</div>
+                </div>
 
-    <section class="upload-card">
+                <img id="preview" alt="Preview">
 
-        <div id="uploadContent">
+                <div id="actionButtons">
+                    <button id="changeBtn" class="secondary-btn">Change Image</button>
+                    <button id="enhanceBtn" class="upload-btn">Enhance Image</button>
+                </div>
 
-            <div class="upload-icon">
-                🖼️
-            </div>
+                <div id="progressContainer">
+                    <div id="progressBar"></div>
+                </div>
+            </section>
 
-            <h2>
-                Upload your image
-            </h2>
-
-            <p>
-                Drag & Drop or click to select
-            </p>
-
-            <input
-                type="file"
-                id="fileInput"
-                accept=".jpg,.jpeg,.png,.bmp,.heic"
-                hidden
-            >
-
-            <button id="btn" class="upload-btn">
-                Select Image
-            </button>
-
-            <div class="formats">
-                JPG • PNG • BMP • HEIC
-            </div>
-
+            <section class="features">
+                <div class="feature">
+                    <h3>⚡ Fast</h3>
+                    <p>Image processing in seconds</p>
+                </div>
+                <div class="feature">
+                    <h3>🎨 Smart Enhancement</h3>
+                    <p>Brightness, contrast and color correction</p>
+                </div>
+                <div class="feature">
+                    <h3>🌐 Browser Based</h3>
+                    <p>No uploads to external servers</p>
+                </div>
+            </section>
         </div>
+    </main>
 
-        <img id="preview">
-
-        <div id="actionButtons">
-
-        <button
-            id="changeBtn"
-            class="secondary-btn"
-        >
-            Change Image
-
-        </button>
-
-        <button
-            id="enhanceBtn"
-            class="upload-btn"
-        >
-            Enhance Image
-        </button>
-
-        </div>
-
-        <div id="progressContainer">
-            <div id="progressBar"></div>
-        </div>
-
-    </section>
-
-</main>
-
-<script src="script.js"></script>
-
+    <script src="script.js"></script>
 </body>
 </html>
