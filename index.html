@@ -45,36 +45,48 @@
 
     <section class="upload-card">
 
-        <div class="upload-icon">
-            🖼️
+        <div id="uploadContent">
+
+            <div class="upload-icon">
+                🖼️
+            </div>
+
+            <h2>
+                Upload your image
+            </h2>
+
+            <p>
+                Drag & Drop or click to select
+            </p>
+
+            <input
+                type="file"
+                id="fileInput"
+                accept=".jpg,.jpeg,.png,.bmp,.heic"
+                hidden
+            >
+
+            <button id="btn" class="upload-btn">
+                Select Image
+            </button>
+
+            <div class="formats">
+                JPG • PNG • BMP • HEIC
+            </div>
+
         </div>
 
-        <h2>
-            Upload your image
-        </h2>
+        <img id="preview">
 
-        <p>
-            Drag & Drop or click to select
-        </p>
-
-        <input
-            type="file"
-            id="fileInput"
-            accept=".jpg,.jpeg,.png,.bmp,.heic"
-            hidden
+        <button
+            id="enhanceBtn"
+            class="upload-btn"
         >
-
-        <button id="btn" class="upload-btn">
-            Select Image
+            Enhance Image
         </button>
 
-        <img
-            id="preview"
-            style="display:none"
-        >
-
-        <div class="formats">
-            JPG • PNG • BMP • HEIC
+        <div id="progressContainer">
+            <div id="progressBar"></div>
         </div>
 
     </section>
