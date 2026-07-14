@@ -127,19 +127,7 @@ enhanceBtn.addEventListener("click", () => {
 });
 
 changeBtn.addEventListener("click", () => {
-
-    fileInput.value = "";
-
-    preview.style.display = "none";
-
-    preview.src = "";
-
-    actionButtons.style.display = "none";
-
-    progressContainer.style.display = "none";
-
-    progressBar.style.width = "0%";
-
-    uploadContent.style.display = "flex";
+    
+    fileInput.click();
 
 });
