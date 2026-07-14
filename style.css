@@ -257,3 +257,17 @@ main {
 
     transition: width .2s;
 }
+
+.upload-card.dragover {
+
+    border-color: var(--accent);
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(139,92,246,.15),
+            rgba(139,92,246,.05)
+        );
+
+    transform: scale(1.01);
+}

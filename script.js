@@ -1,3 +1,64 @@
+const uploadCard = document.querySelector(".upload-card");
+["dragenter", "dragover", "dragleave", "drop"]
+.forEach(eventName => {
+
+    uploadCard.addEventListener(
+        eventName,
+        (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+    );
+
+});
+
+["dragenter", "dragover"]
+.forEach(eventName => {
+
+    uploadCard.addEventListener(
+        eventName,
+        () => {
+            uploadCard.classList.add("dragover");
+        }
+    );
+
+});
+
+["dragleave", "drop"]
+.forEach(eventName => {
+
+    uploadCard.addEventListener(
+        eventName,
+        () => {
+            uploadCard.classList.remove("dragover");
+        }
+    );
+
+});
+
+function loadImage(file) {
+
+    if (!file) return;
+
+    const url = URL.createObjectURL(file);
+
+    preview.src = url;
+
+    preview.style.display = "block";
+
+    uploadContent.style.display = "none";
+
+    enhanceBtn.style.display = "block";
+}
+
+fileInput.addEventListener("change", (event) => {
+
+    const file = event.target.files[0];
+
+    loadImage(file);
+
+});
+
 const button = document.getElementById("btn");
 const fileInput = document.getElementById("fileInput");
 
@@ -61,4 +122,12 @@ enhanceBtn.addEventListener("click", () => {
         }
 
     }, 50);
+});
+
+uploadCard.addEventListener("drop", (event) => {
+
+    const file = event.dataTransfer.files[0];
+
+    loadImage(file);
+
 });
