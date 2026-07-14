@@ -164,6 +164,8 @@ main {
     justify-content: center;
 
     gap: 20px;
+
+    transition: .25s;
 }
 
 .upload-icon {

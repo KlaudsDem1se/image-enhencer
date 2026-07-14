@@ -1,12 +1,58 @@
 const uploadCard = document.querySelector(".upload-card");
+
+const button = document.getElementById("btn");
+const fileInput = document.getElementById("fileInput");
+
+const preview = document.getElementById("preview");
+
+const uploadContent =
+    document.getElementById("uploadContent");
+
+const enhanceBtn =
+    document.getElementById("enhanceBtn");
+
+const progressContainer =
+    document.getElementById("progressContainer");
+
+const progressBar =
+    document.getElementById("progressBar");
+
+function loadImage(file) {
+
+    if (!file) return;
+
+    const url = URL.createObjectURL(file);
+
+    preview.src = url;
+
+    preview.style.display = "block";
+
+    uploadContent.style.display = "none";
+
+    enhanceBtn.style.display = "block";
+}
+
+button.addEventListener("click", () => {
+    fileInput.click();
+});
+
+fileInput.addEventListener("change", (event) => {
+
+    const file = event.target.files[0];
+
+    loadImage(file);
+});
+
 ["dragenter", "dragover", "dragleave", "drop"]
 .forEach(eventName => {
 
     uploadCard.addEventListener(
         eventName,
         (event) => {
+
             event.preventDefault();
             event.stopPropagation();
+
         }
     );
 
@@ -36,70 +82,19 @@ const uploadCard = document.querySelector(".upload-card");
 
 });
 
-function loadImage(file) {
+uploadCard.addEventListener("drop", (event) => {
 
-    if (!file) return;
-
-    const url = URL.createObjectURL(file);
-
-    preview.src = url;
-
-    preview.style.display = "block";
-
-    uploadContent.style.display = "none";
-
-    enhanceBtn.style.display = "block";
-}
-
-fileInput.addEventListener("change", (event) => {
-
-    const file = event.target.files[0];
+    const file =
+        event.dataTransfer.files[0];
 
     loadImage(file);
 
 });
 
-const button = document.getElementById("btn");
-const fileInput = document.getElementById("fileInput");
-
-const preview = document.getElementById("preview");
-
-const uploadContent =
-    document.getElementById("uploadContent");
-
-const enhanceBtn =
-    document.getElementById("enhanceBtn");
-
-const progressContainer =
-    document.getElementById("progressContainer");
-
-const progressBar =
-    document.getElementById("progressBar");
-
-button.addEventListener("click", () => {
-    fileInput.click();
-});
-
-fileInput.addEventListener("change", (event) => {
-
-    const file = event.target.files[0];
-
-    if (!file) return;
-
-    const url = URL.createObjectURL(file);
-
-    preview.src = url;
-
-    preview.style.display = "block";
-
-    uploadContent.style.display = "none";
-
-    enhanceBtn.style.display = "block";
-});
-
 enhanceBtn.addEventListener("click", () => {
 
-    progressContainer.style.display = "block";
+    progressContainer.style.display =
+        "block";
 
     progressBar.style.width = "0%";
 
@@ -122,12 +117,5 @@ enhanceBtn.addEventListener("click", () => {
         }
 
     }, 50);
-});
-
-uploadCard.addEventListener("drop", (event) => {
-
-    const file = event.dataTransfer.files[0];
-
-    loadImage(file);
 
 });
