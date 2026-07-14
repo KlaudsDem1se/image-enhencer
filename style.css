@@ -273,3 +273,38 @@ main {
 
     transform: scale(1.01);
 }
+
+#actionButtons {
+
+    display: none;
+
+    gap: 16px;
+
+    margin-top: 20px;
+}
+
+.secondary-btn {
+
+    background: transparent;
+
+    color: white;
+
+    border: 1px solid var(--border);
+
+    border-radius: 16px;
+
+    padding: 14px 28px;
+
+    font-size: 16px;
+
+    cursor: pointer;
+
+    transition: .2s;
+}
+
+.secondary-btn:hover {
+
+    border-color: var(--accent);
+
+    transform: translateY(-2px);
+}

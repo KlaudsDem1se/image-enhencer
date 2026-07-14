@@ -17,6 +17,12 @@ const progressContainer =
 const progressBar =
     document.getElementById("progressBar");
 
+const actionButtons =
+    document.getElementById("actionButtons");
+
+const changeBtn =
+    document.getElementById("changeBtn");
+
 function loadImage(file) {
 
     if (!file) return;
@@ -29,7 +35,7 @@ function loadImage(file) {
 
     uploadContent.style.display = "none";
 
-    enhanceBtn.style.display = "block";
+    actionButtons.style.display = "flex";
 }
 
 button.addEventListener("click", () => {
@@ -117,5 +123,23 @@ enhanceBtn.addEventListener("click", () => {
         }
 
     }, 50);
+
+});
+
+changeBtn.addEventListener("click", () => {
+
+    fileInput.value = "";
+
+    preview.style.display = "none";
+
+    preview.src = "";
+
+    actionButtons.style.display = "none";
+
+    progressContainer.style.display = "none";
+
+    progressBar.style.width = "0%";
+
+    uploadContent.style.display = "flex";
 
 });
