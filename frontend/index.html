@@ -4,7 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="AI-Powered Image Enhancement - Automatic brightness, contrast and color correction directly in your browser">
-    
+    <script type="importmap">
+    {
+        "imports": {
+            "heic2any": "./node_modules/heic2any/dist/heic2any.min.js"
+        }
+    }
+    </script>
     <title>Vermeer - Image Enhancer</title>
     
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
@@ -56,7 +62,7 @@
                     <h2>Upload your image</h2>
                     <p>Drag & Drop or click to select</p>
                     
-                    <input type="file" id="fileInput" accept=".jpg,.jpeg,.png,.bmp,.heic,.webp" hidden>
+                    <input type="file" id="fileInput" accept=".jpg,.jpeg,.png,.bmp,.heic" hidden>
                     <button id="btn" class="upload-btn">Select Image</button>
                     <div class="formats">JPG • PNG • BMP • HEIC</div>
                 </div>
@@ -90,6 +96,6 @@
         </div>
     </main>
 
-    <script src="script.js"></script>
+    <script type="module" src="script.js"></script>
 </body>
 </html>
