@@ -9,6 +9,7 @@ const button = document.getElementById('btn');
 const fileInput = document.getElementById('fileInput');
 const preview = document.getElementById('preview');
 const uploadContent = document.getElementById('uploadContent');
+const loadingSpinner = document.getElementById('loadingSpinner');
 const enhanceBtn = document.getElementById('enhanceBtn');
 const progressContainer = document.getElementById('progressContainer');
 const progressBar = document.getElementById('progressBar');
@@ -52,12 +53,9 @@ async function loadImage(file) {
     const name = file.name.toLowerCase();
     
     const isImage = type.startsWith('image/') || 
-                    name.endsWith('.jpg') || 
-                    name.endsWith('.jpeg') || 
-                    name.endsWith('.png') || 
-                    name.endsWith('.bmp') || 
-                    name.endsWith('.heic') || 
-                    name.endsWith('.heif');
+                    name.endsWith('.jpg') || name.endsWith('.jpeg') || 
+                    name.endsWith('.png') || name.endsWith('.bmp') || 
+                    name.endsWith('.heic') || name.endsWith('.heif');
 
     if (!isImage) {
         alert('Пожалуйста, загрузите изображение');
@@ -67,16 +65,20 @@ async function loadImage(file) {
     if (preview.src) {
         URL.revokeObjectURL(preview.src);
     }
+    
+    uploadContent.style.display = 'none';
+    preview.style.display = 'none';
+    actionButtons.style.display = 'none';
+    
+    const spinner = document.getElementById('loadingSpinner');
+    if (spinner) {
+        spinner.style.display = 'block';
+    }
 
-    const isHeic = name.endsWith('.heic') || name.endsWith('.heif') || 
-                   type === 'image/heic' || type === 'image/heif';
+    const isHeic = name.endsWith('.heic') || name.endsWith('.heif') || type.includes('heic');
 
-    if (isHeic) {
-        preview.style.display = 'block';
-        preview.src = '';
-        preview.alt = 'Конвертация HEIC...';
-        
-        try {
+    try {
+        if (isHeic) {
             if (!window.heic2any) {
                 await new Promise((resolve, reject) => {
                     const script = document.createElement('script');
@@ -94,28 +96,36 @@ async function loadImage(file) {
             });
 
             const targetBlob = Array.isArray(blob) ? blob[0] : blob;
+            
             currentFile = new File([targetBlob], name.replace(/\.(heic|heif)$/i, '.jpg'), {
                 type: 'image/jpeg'
             });
             
             preview.src = URL.createObjectURL(targetBlob);
-        } catch (error) {
-            console.error('Ошибка конвертации HEIC:', error);
-            alert('Не удалось обработать HEIC файл');
-            preview.style.display = 'none';
-            currentFile = null;
-            return;
+        } else {
+            currentFile = file;
+            preview.src = URL.createObjectURL(file);
         }
-    } else {
-        currentFile = file;
-        preview.src = URL.createObjectURL(file);
-    }
 
-    preview.style.display = 'block';
-    uploadContent.style.display = 'none';
-    actionButtons.style.display = 'flex';
-    progressContainer.style.display = 'none';
-    progressBar.style.width = '0%';
+        if (spinner) {
+            spinner.style.display = 'none';
+        }
+        preview.style.display = 'block';
+        uploadContent.style.display = 'none';
+        actionButtons.style.display = 'flex';
+        progressContainer.style.display = 'none';
+        progressBar.style.width = '0%';
+
+    } catch (error) {
+        console.error('Ошибка загрузки:', error);
+        alert('Не удалось загрузить изображение');
+        
+        if (spinner) {
+            spinner.style.display = 'none';
+        }
+        uploadContent.style.display = 'flex';
+        actionButtons.style.display = 'none';
+    }
 }
 
 button.addEventListener('click', () => {
@@ -182,6 +192,8 @@ changeBtn.addEventListener('click', () => {
         api.cancelTask(currentTaskId);
         currentTaskId = null;
     }
+    
     currentFile = null;
+    fileInput.value = '';
     fileInput.click();
 });

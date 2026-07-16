@@ -40,6 +40,7 @@
 
         <div class="upload-wrapper">
             <section class="upload-card" id="dropZone">
+                
                 <div id="uploadContent">
                     <div class="upload-icon">
                         <svg width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -55,9 +56,14 @@
                     <h2>Upload your image</h2>
                     <p>Drag & Drop or click to select</p>
                     
-                    <input type="file" id="fileInput" accept=".jpg,.jpeg,.png,.bmp,.heic" hidden>
+                    <input type="file" id="fileInput" accept=".jpg,.jpeg,.png,.bmp,.heic,.heif" hidden>
                     <button id="btn" class="upload-btn">Select Image</button>
                     <div class="formats">JPG • PNG • BMP • HEIC</div>
+                </div>
+
+                <div id="loadingSpinner" style="display: none;">
+                    <div class="spinner"></div>
+                    <p class="loading-text">Downloading Image...</p>
                 </div>
 
                 <img id="preview" alt="Preview">
@@ -70,6 +76,7 @@
                 <div id="progressContainer">
                     <div id="progressBar"></div>
                 </div>
+
             </section>
 
             <section class="features">

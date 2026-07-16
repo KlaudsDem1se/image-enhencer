@@ -189,8 +189,8 @@ main {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 12px;
-    width: 100%;
+    justify-content: center;
+    min-height: 280px;
 }
 
 #preview {
@@ -361,4 +361,31 @@ main {
     50% {
         transform: translateY(-30px) scale(1.05);
     }
+}
+
+#loadingSpinner {
+    text-align: center;
+    padding: 40px 0;
+    display: none;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid rgba(168, 85, 247, 0.2);
+    border-top: 4px solid #a855f7;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 15px auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loading-text {
+    color: #cbd5e1;
+    font-size: 0.95em;
+    font-weight: 500;
 }
