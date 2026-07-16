@@ -2,6 +2,7 @@ import EnhancerAPI from './enhancer-api.js';
 
 const api = new EnhancerAPI();
 let currentTaskId = null;
+let currentFile = null;
 
 const uploadCard = document.querySelector('.upload-card');
 const button = document.getElementById('btn');
@@ -44,7 +45,7 @@ api.addEventListener('statuschange', (event) => {
     }
 });
 
-function loadImage(file) {
+async function loadImage(file) {
     if (!file) return;
 
     const type = file.type.toLowerCase();
@@ -67,10 +68,50 @@ function loadImage(file) {
         URL.revokeObjectURL(preview.src);
     }
 
-    const url = URL.createObjectURL(file);
-    preview.src = url;
+    const isHeic = name.endsWith('.heic') || name.endsWith('.heif') || 
+                   type === 'image/heic' || type === 'image/heif';
+
+    if (isHeic) {
+        preview.style.display = 'block';
+        preview.src = '';
+        preview.alt = 'Конвертация HEIC...';
+        
+        try {
+            if (!window.heic2any) {
+                await new Promise((resolve, reject) => {
+                    const script = document.createElement('script');
+                    script.src = 'https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js';
+                    script.onload = resolve;
+                    script.onerror = () => reject(new Error('Не удалось загрузить heic2any'));
+                    document.head.appendChild(script);
+                });
+            }
+            
+            const blob = await window.heic2any({
+                blob: file,
+                toType: 'image/jpeg',
+                quality: 0.9
+            });
+
+            const targetBlob = Array.isArray(blob) ? blob[0] : blob;
+            currentFile = new File([targetBlob], name.replace(/\.(heic|heif)$/i, '.jpg'), {
+                type: 'image/jpeg'
+            });
+            
+            preview.src = URL.createObjectURL(targetBlob);
+        } catch (error) {
+            console.error('Ошибка конвертации HEIC:', error);
+            alert('Не удалось обработать HEIC файл');
+            preview.style.display = 'none';
+            currentFile = null;
+            return;
+        }
+    } else {
+        currentFile = file;
+        preview.src = URL.createObjectURL(file);
+    }
+
     preview.style.display = 'block';
-    
     uploadContent.style.display = 'none';
     actionButtons.style.display = 'flex';
     progressContainer.style.display = 'none';
@@ -81,9 +122,9 @@ button.addEventListener('click', () => {
     fileInput.click();
 });
 
-fileInput.addEventListener('change', (event) => {
+fileInput.addEventListener('change', async (event) => {
     const file = event.target.files[0];
-    loadImage(file);
+    await loadImage(file);
 });
 
 ['dragenter', 'dragover', 'dragleave', 'drop'].forEach((eventName) => {
@@ -119,21 +160,21 @@ fileInput.addEventListener('change', (event) => {
 
 uploadCard.addEventListener(
     'drop',
-    (event) => {
+    async (event) => {
         const file = event.dataTransfer.files[0];
-        loadImage(file);
+        await loadImage(file);
     },
     false
 );
 
 enhanceBtn.addEventListener('click', () => {
-    if (!fileInput.files[0]) return;
+    if (!currentFile) return;
 
     actionButtons.style.display = 'none';
     progressContainer.style.display = 'block';
     progressBar.style.width = '0%';
 
-    currentTaskId = api.createTask(fileInput.files[0]);
+    currentTaskId = api.createTask(currentFile);
 });
 
 changeBtn.addEventListener('click', () => {
@@ -141,5 +182,6 @@ changeBtn.addEventListener('click', () => {
         api.cancelTask(currentTaskId);
         currentTaskId = null;
     }
+    currentFile = null;
     fileInput.click();
 });

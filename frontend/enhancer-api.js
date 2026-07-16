@@ -1,5 +1,3 @@
-import { loadImageFile } from './image-loader.js';
-
 class EnhancerAPI extends EventTarget {
     constructor() {
         super();
@@ -70,7 +68,7 @@ class EnhancerAPI extends EventTarget {
 
         try {
             this._dispatch(taskId, "processing", 10);
-            const bitmap = await loadImageFile(task.file);
+            const bitmap = await createImageBitmap(task.file);
             
             if (task.cancelled) return;
 
