@@ -47,7 +47,18 @@ api.addEventListener('statuschange', (event) => {
 function loadImage(file) {
     if (!file) return;
 
-    if (!file.type.startsWith('image/')) {
+    const type = file.type.toLowerCase();
+    const name = file.name.toLowerCase();
+    
+    const isImage = type.startsWith('image/') || 
+                    name.endsWith('.jpg') || 
+                    name.endsWith('.jpeg') || 
+                    name.endsWith('.png') || 
+                    name.endsWith('.bmp') || 
+                    name.endsWith('.heic') || 
+                    name.endsWith('.heif');
+
+    if (!isImage) {
         alert('Пожалуйста, загрузите изображение');
         return;
     }
@@ -128,6 +139,7 @@ enhanceBtn.addEventListener('click', () => {
 changeBtn.addEventListener('click', () => {
     if (currentTaskId) {
         api.cancelTask(currentTaskId);
+        currentTaskId = null;
     }
     fileInput.click();
 });
